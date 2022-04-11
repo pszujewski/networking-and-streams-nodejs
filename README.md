@@ -28,3 +28,45 @@ SSL - low-level secure data transfer (used by HTTPS)
 FTP - file transfer (customary port 21)
 
 These usually have a default port, or a standard port. But the port can vary for each service. You can always run on a different port (think HTTP running on :5000 instead of :80).
+
+## netcat
+
+A networking utility that reads and writes data across network connections using the TCP/IP protocol.
+
+```bash
+$ nc -lp 5000
+
+$ nc localhost 5000
+```
+
+Then these two processes can send and receive data respectively.
+
+# http verbs
+
+HTTP is a text based data transfer protocol that works over TCP. HTTP requests begin with a verb. Here are some things each verb is used for:
+
+GET - fetch a document
+POST - submit a form
+HEAD - fetch metadata about a documet
+PUT - upload a file
+
+Try this to send an http request to google over tcp using http.
+
+```bash
+nc google.com 80
+GET / HTTP/1.0
+HOST: google.com
+```
+
+# http post
+
+Forms in html are often delivered with a POST:
+
+```bash
+POST /form HTTP/1.1
+HOST: localhost
+Content-Length: 51 # refers to the length of the request body (or response body for a response)
+Content-Type: application/x-www-form-urlencoded
+
+title=whatever&date=1421044443&data=beep&20boop%21
+```
