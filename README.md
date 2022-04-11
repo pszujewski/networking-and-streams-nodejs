@@ -41,7 +41,7 @@ $ nc localhost 5000
 
 Then these two processes can send and receive data respectively.
 
-# http verbs
+## http verbs
 
 HTTP is a text based data transfer protocol that works over TCP. HTTP requests begin with a verb. Here are some things each verb is used for:
 
@@ -58,7 +58,7 @@ GET / HTTP/1.0
 HOST: google.com
 ```
 
-# http post
+## http post
 
 Forms in html are often delivered with a POST:
 
@@ -69,4 +69,14 @@ Content-Length: 51 # refers to the length of the request body (or response body 
 Content-Type: application/x-www-form-urlencoded
 
 title=whatever&date=1421044443&data=beep&20boop%21
+```
+
+## curl
+
+You can also send http requests with the `curl` command
+
+```bash
+curl -s http://substack.net # the -s gets rid of progress output
+
+curl -sI http://substack.net # to see just the headers
 ```
