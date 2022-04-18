@@ -127,3 +127,12 @@ The Buffer object in nodejs is a representation of binary data.
 - `.write(buf) // write a buffer chunk to the stream`
 - `.end() // close the stream`
 - `.on('finish', () => { ... }) // on the finish event`
+
+## Core streams in node
+
+Many of the APIs in node core provide the stream interface
+
+- `fs.createReadStream()`
+- `fs.createWriteStream()`
+- `process.stdin, process.stderr`
+- `net.createServer(function (stream) {})`
