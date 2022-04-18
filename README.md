@@ -73,10 +73,57 @@ title=whatever&date=1421044443&data=beep&20boop%21
 
 ## curl
 
-You can also send http requests with the `curl` command
+You can also send http requests with the `curl` command. It prints the http response to stdout.
 
 ```bash
 curl -s http://substack.net # the -s gets rid of progress output
 
 curl -sI http://substack.net # to see just the headers
+
+curl -X POST http://site.com -d title=whatever -d date=1421044443 -d body='beep boop!' # to send a POST with formdata
+
+curl ... -H cool:beans # set a header
 ```
+
+## Binary protocols
+
+irc and smtp are other examples of text based protocols. They are easy to inspect as they travel over the network. With binary protocols, you need a program to pack and unpack the bytes sent over the protocol.
+
+Use tcpdump to intercept all network traffic on a port. For example:
+
+`sudo tcpdump 'tcp port 80' -A`
+
+The `-A` is for formatting. This will listen on port 80, so any unencrypted http traffic is caught here.
+
+## Streams in node.js
+
+Streams are great for moving data around for IO. Think of it as connecting programs like garden hose--screw. Chaining programs together like pipes.
+
+Why streams? We can compose streaming abstractions and we can operate on data chunk by chunk. For example, for a several hundred MB video file that is served by your web server, rather than needing to load the entire video file into main memory in order to serve it out, you can stream the file to the client and therefore allow you to only load small chunks of that data into memory at a time. You could also operate on each chunk if need be (transform stream). Maybe you have thousands of video files. You can't read in the entire files and then write it out to the client. You have to pick it out bit by bit.
+
+The Buffer object in nodejs is a representation of binary data.
+
+## Stream types
+
+- Readable: Produces data, you can `.pipe()` FROM it.
+  Sources of data, like `fs.createReadStream`
+  `readable.pipe(A) // Pipe from a readable stream into some kind of writable stream`
+- Writable: Consumes data, you can `.pipe()` TO it.
+  Destinations where the data flows to. For example, `fs.createWriteStream` which streams data to a file on disk.
+  `A.pipe(writable)`
+- Transform: Consumes data, producing transformed data
+  Readable and writable
+  Take input and produce output
+  `A.pipe(transform).pipe(B) // Put them between two streams`
+- Duplex: Consumes data separately from producing data (like a telephone, both sides can be talking)
+  Readable and writable
+  Bi-directional network protocols
+  `A.pipe(duplex).pipe(A)`
+
+## Writable stream methods
+
+`.pipe()` is a method of all readable streams. Any stream you can write to has
+
+- `.write(buf) // write a buffer chunk to the stream`
+- `.end() // close the stream`
+- `.on('finish', () => { ... }) // on the finish event`

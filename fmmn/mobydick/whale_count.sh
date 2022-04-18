@@ -1,0 +1,1 @@
+<./mobydick.txt.gz gunzip | grep -i whale | wc -l
